@@ -75,6 +75,10 @@ public class Course extends Queries {
 			deleteCourse();
 		}
 	}
+	public void setGrades() {
+		
+	}
+	
 	public int getCourseHours() {
 		return hours;
 	}

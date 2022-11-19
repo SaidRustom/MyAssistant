@@ -5,7 +5,7 @@ import java.sql.*;
  * @author Said
  *
  */
-public abstract class Queries {
+public class Queries {
 	String url = "jdbc:mysql://localhost:3306/schedulebuilder";
 	String username = "root";
 	String password = "said123123";
@@ -152,8 +152,13 @@ public abstract class Queries {
 		    System.out.println(" Weight(%) -     DaysLeft    -   "+table  );
 		    System.out.println("_____________________________________________________________");
 		    while (rs.next()) {
-		    	
+		    	if (Integer.parseInt(rs.getString(4)) > 0) {
 		    	System.out.println("   "+(rs.getString(2)) +"              "+rs.getString(4)+"           " + rs.getString(1)+" (" + rs.getString(3) +")");
+		    	}else {
+		    		final String ANSI_RESET = "\u001B[0m";
+		    		final String ANSI_RED = "\u001B[31m";
+		    		System.out.println("   "+(rs.getString(2)) +"              "+ ANSI_RED + rs.getString(4)+ ANSI_RESET +"           " + rs.getString(1)+" (" + rs.getString(3) +")");
+		    	}
 		    }
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -340,17 +345,34 @@ public abstract class Queries {
 			System.out.println(e.getMessage());
 		}
 	}
-	/*public void setCourseGrade(int id, String letterGrade) {
+	public void setCourseGrade(int id) {
 		try (Connection connection =DriverManager.getConnection(url, username, password)) {
-		    String query = "update courses into "+table+" (name, startdate, enddate)"
-		    		+ " values ('"+name +"' , '" +startDate+"', '"+endDate+"' );";
+		    String query = "update courses set grade = sum(assignments.grade) where assignments.courseid = "+id;
 		    Statement st = connection.createStatement();
 		    st.executeUpdate(query);
 		    }
 		catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
-	}*/
+	}
+	
+	public void coursesGrades() {
+		
+		try (Connection connection =DriverManager.getConnection(url, username, password)) {
+		    String query = "select name, grade, hours from courses; ";
+		    Statement st = connection.createStatement();
+		    ResultSet rs =st.executeQuery(query);
+		    System.out.println("Course name  -  Grade   -  hours");
+	    	System.out.println("________________________________");
+		    while( rs.next()) {
+		    	
+		    	System.out.println("  "+rs.getString(1)+ "           "+rs.getString(2)+"        "+rs.getString(3));
+		    }
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 }
 
 

@@ -64,6 +64,7 @@ public class Assignment extends Queries {
 			Test.printAssignmentMenu();
 		}else {
 		printCourseAssignments(courseid);
+		setCourseGrade( courseid);
 		System.out.print("Enter Assignment ID to submit, or (0) to go back to menu:  ");
 		int id = input.nextInt();
 		if (id == 0) {

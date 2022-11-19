@@ -6,6 +6,7 @@ public class Test {
 	static Scanner userInput = new Scanner(System.in);
 	public static void main(String[] args) {
 		
+		
 		System.out.println("Welcome to the student assistant program! ");
 			Test.printMenu();
 		
@@ -142,7 +143,7 @@ public class Test {
 			menuChoiceCourse();
 		}else if (choice == VIEW_ALL_COURSES) {
 			Course c = new Course();
-			c.printList("courses");
+			c.coursesGrades();
 			System.out.println();
 			menuChoiceCourse();
 		}else if (choice == DELETE_COURSE) {
