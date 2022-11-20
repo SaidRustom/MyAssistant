@@ -17,8 +17,9 @@ public class Test {
 		final int SEMESTER = 1;
 		final int COURSE = 2;
 		final int ASSIGNMENT = 3;
-		final int ENTER_SEMESTERID = 4;
-		final int QUIT = 5;
+		final int WEEK_ASSIGNMENTS = 4;
+		final int ENTER_SEMESTERID = 5;
+		final int QUIT = 6;
 		
 		System.out.println();
 		System.out.println("________________________________________");
@@ -28,8 +29,9 @@ public class Test {
 		System.out.println("|1-|-----Go to Semesters menu.          |");
 		System.out.println("|2-|-----Go to Courses menu.            |");
 		System.out.println("|3-|-----Go to Assignments menu.        |");
-		System.out.println("|4-|-----Enter a static semester ID     |");
-		System.out.println("|5-|-----To close program.              |");
+		System.out.println("|4-|-----View this week due assignments |");
+		System.out.println("|5-|-----Enter a static semester ID     |");
+		System.out.println("|6-|-----To close program.              |");
 		System.out.println("|__|____________________________________|");
 		System.out.print("            your choice: ");
 		int choice = userInput.nextInt();
@@ -52,6 +54,10 @@ public class Test {
 		else if (choice == QUIT) {
 			System.out.println("Closing program..");
 			System.out.println("See you later! :)");
+		}else if ( choice == WEEK_ASSIGNMENTS) {
+			Assignment a = new Assignment();
+			a.printWeekAssignments();
+			menuChoiceAssignment();
 		}
 		else {
 			System.out.println("invalid input...");
@@ -142,8 +148,8 @@ public class Test {
 			System.out.println();
 			menuChoiceCourse();
 		}else if (choice == VIEW_ALL_COURSES) {
-			Course c = new Course();
-			c.coursesGrades();
+			Semester s = new Semester();
+			s.getSemesterProgress();
 			System.out.println();
 			menuChoiceCourse();
 		}else if (choice == DELETE_COURSE) {
@@ -164,7 +170,7 @@ public class Test {
 		final int SUBMIT_ASSIGNMENT = 3;
 		final int CHANGE_DEADLINE = 4;
 		final int ADD_RECEIVED_GRADE = 5;
-		final int VIEW_ALL_ASSIGNMENTS = 6;
+		final int VIEW_NOTSUBMITTED_ASSIGNMENTS = 6;
 		final int VIEW_ALL_COMPLETED_ASSIGNMENTS = 7;
 		final int VIEW_COURSE_ASSIGNMENTS = 8;
 		System.out.println();
@@ -212,7 +218,7 @@ public class Test {
 			a.updateAssignmentReceivedGrade();
 			System.out.println();
 			menuChoiceAssignment();
-		}else if (choice == VIEW_ALL_ASSIGNMENTS) {
+		}else if (choice == VIEW_NOTSUBMITTED_ASSIGNMENTS) {
 			Assignment a = new Assignment();
 			a.printGradesDeadline("assignments");
 			System.out.println();

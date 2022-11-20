@@ -88,7 +88,7 @@ public class Course extends Queries {
 	public void setCourseGrade(int grade) {
 		this.grade =+ grade;
 	}
-	public String calculateLetterGrade(int grade) {
+	public String calculateLetterGrade(double grade) {
 		if (grade > 89 && grade < 101) {
 			letterGrade = "A+";
 		}else if (grade >= 85 && grade < 90) {

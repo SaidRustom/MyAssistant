@@ -64,7 +64,6 @@ public class Assignment extends Queries {
 			Test.printAssignmentMenu();
 		}else {
 		printCourseAssignments(courseid);
-		setCourseGrade( courseid);
 		System.out.print("Enter Assignment ID to submit, or (0) to go back to menu:  ");
 		int id = input.nextInt();
 		if (id == 0) {
@@ -81,6 +80,7 @@ public class Assignment extends Queries {
 			System.out.println("invalid input, going back to assignment menu..");
 			Test.printAssignmentMenu();
 		}
+		System.out.println("(3) To enter assignment grade");
 		System.out.print("(2) to submit another assignment, (1) back to assignment menu, or (0) to main menu: ");
 		int choice = input.nextInt();
 		if (choice == 2) {
@@ -89,7 +89,12 @@ public class Assignment extends Queries {
 			Test.printAssignmentMenu();
 		}else if (choice == 0) {
 			Test.printMenu();
-		}else {
+		}else if (choice == 3) {
+			System.out.print("Enter received grade: ");
+			double grade = input.nextDouble();
+			updateReceivedGrade(id, grade);
+		}
+		else {
 			System.out.println("invalid input, going back to main menu..");
 			Test.printAssignmentMenu();
 		}

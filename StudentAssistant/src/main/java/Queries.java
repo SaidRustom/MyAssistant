@@ -9,6 +9,43 @@ public class Queries {
 	String url = "jdbc:mysql://localhost:3306/schedulebuilder";
 	String username = "root";
 	String password = "said123123";
+	
+	/**
+	 * Prints entered String in red.
+	 * @param str
+	 * @return
+	 */
+	public final String printRed(String str) {
+		final String ANSI_RESET = "\u001B[0m";
+		final String ANSI_RED = "\u001B[31;1m";
+		 str = (ANSI_RED + str + ANSI_RESET );
+		return str;
+	}
+	public final String printGreen(String str) {
+		final String ANSI_RESET = "\u001B[0m";
+		final String ANSI_GREEN = "\u001b[32m";
+		str = (ANSI_GREEN + str + ANSI_RESET);
+		return str;
+	}
+		/**
+		 * String padding method, takes string and length as parameters.
+		 * @param str
+		 * @param leng
+		 * @return return padded String.
+		 */
+	
+	public static String padString(String str, int leng) {
+		if (str != null) {
+        for (int i = str.length(); i < leng ; i++)
+            str += " ";
+		}else {
+			str = "";
+			for (int i = 0; i < leng ; i++) {
+				str += " ";
+			}
+		}
+        return str;
+    }
 	/**
 	 * this method takes a table as a parameter
 	 * and prints a list of existing items in the table
@@ -134,7 +171,7 @@ public class Queries {
 		    System.out.println("_____________________________________________________________");
 		    while (rs.next()) {
 		    	
-		    	System.out.println("   "+(rs.getString(2)) + "           "+rs.getString(3)+"%              " + rs.getString(1)+" (" + rs.getString(4) +")");
+		    	System.out.println(padString("",3) + padString(rs.getString(2), 15)  + padString("%"+rs.getString(3), 16 ) + rs.getString(1) +" (" + rs.getString(4) +")");
 		    }
 		}
 		catch(SQLException e) {
@@ -149,15 +186,13 @@ public class Queries {
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println();
-		    System.out.println(" Weight(%) -     DaysLeft    -   "+table  );
+		    System.out.println(padString("Weight(%)",18)  + padString("DaysLeft",20) +padString(table,5));
 		    System.out.println("_____________________________________________________________");
 		    while (rs.next()) {
-		    	if (Integer.parseInt(rs.getString(4)) > 0) {
-		    	System.out.println("   "+(rs.getString(2)) +"              "+rs.getString(4)+"           " + rs.getString(1)+" (" + rs.getString(3) +")");
+		    	if (Integer.parseInt(rs.getString(4)) >= 3) {
+		    		System.out.println(padString("", 3)+ padString(rs.getString(2), 17) + padString(rs.getString(4),20)+ rs.getString(1)+" (" + rs.getString(3) +")");
 		    	}else {
-		    		final String ANSI_RESET = "\u001B[0m";
-		    		final String ANSI_RED = "\u001B[31m";
-		    		System.out.println("   "+(rs.getString(2)) +"              "+ ANSI_RED + rs.getString(4)+ ANSI_RESET +"           " + rs.getString(1)+" (" + rs.getString(3) +")");
+		    		System.out.println(padString("",3) + padString(rs.getString(2), 17) + padString(printRed(rs.getString(4)) , 29) + rs.getString(1)+" (" + rs.getString(3) +")");
 		    	}
 		    }
 		}catch(SQLException e) {
@@ -232,17 +267,18 @@ public class Queries {
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println();
-		    System.out.println("ID  -   Assingnment   -   Grade    -   Deadline    -    Submitted");
-		    System.out.println("_________________________________________________________________");
+		    System.out.println(padString("", 3) + padString("ID", 17) + padString("Assignment", 20)+padString("Grade", 20)
+	    			+ padString("Deadline",20)+  padString("Submitted",10));
+		    System.out.println("_____________________________________________________________________________________________________");
 		    while (rs.next()) {
 		    	
-		    	System.out.println((rs.getString(2)) + "      "+rs.getString(1)+"             " +rs.getString(3)+"%"
-		    			+ "              " + rs.getString(4)+  rs.getString(5)+"         NO");
+		    	System.out.println(padString("", 3) + padString(rs.getString(2), 17) + padString(rs.getString(1), 20)+padString(rs.getString(3)+"%", 20)+
+		    			 padString(rs.getString(4) +"-" +rs.getString(5),20)+"   NO");
 		    } rs = st.executeQuery(query1);
 		    	while (rs.next()) {
 		    	
-		    	System.out.println((rs.getString(2)) + "      "+rs.getString(1)+"             " +rs.getString(3)+"%"
-		    			+ "              " + rs.getString(4)+  rs.getString(5)+"          YES");
+		    	System.out.println(padString("", 3) + padString(rs.getString(2), 17) + padString(rs.getString(1), 20)+padString(rs.getString(3)+"%", 20)
+		    			+ padString(rs.getString(4)+ "-"+ rs.getString(5),20)+"   YES");
 		    }
 		    
 		}catch(SQLException e) {
@@ -261,10 +297,10 @@ public class Queries {
 		    String query2 = "select sum(hours) from courses where semesterid = " + semesterId;
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
-		    System.out.println("Course ID - Course Hours  -   Course Name");
+		    System.out.println(padString("  ID",10) + padString("Hours",10)+ "Course Name");
 		    System.out.println("________________________________________");
 		    while (rs.next()) {
-		    	System.out.println("# " + rs.getString(1) + "       -    " + rs.getString(2) + "         - " + rs.getString(3));
+		    	System.out.println(padString("",2) + padString(rs.getString(1),9) + padString(rs.getString(2),12) + rs.getString(3));
 		    }
 		    System.out.println("________________________________________");
 		    rs = st.executeQuery(query1);
@@ -328,55 +364,51 @@ public class Queries {
 	public void printSemesterProgress(int id) {
 		
 		try (Connection connection =DriverManager.getConnection(url, username, password)) {
-		    String query = "select sum(completedassignments.grade), sum(completedassignments.receivedgrade), courses.name"
-		    		+ " from completedassignments left join courses on courses.id = completedassignments.courseId "
-		    		+ "where completedassignments.receivedgrade is not null and courses.semesterid = "+id+" group by courses.name";
+		    String query = "select * from `85<courses`;";
+		    String query1 = "select * from `85>courses`;";
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println();
-		    System.out.println("Total Grade -  Acheived Grade -  Course");
-		    System.out.println("______________________________________________");
+		    System.out.println(padString("Possible",12) + padString("Acheived",12) +  padString("Projected", 12) + "Course" );
+		    System.out.println("_______________________________________________________");
+		    	Course c = new Course();
+		    	while (rs.next()) {
+		    		System.out.println(printGreen(padString("",2) + padString(rs.getString(1), 12) + padString(rs.getString(2), 12) +
+		    				padString(c.calculateLetterGrade(Double.parseDouble(rs.getString(4))),12)+ rs.getString(3)));
+		    	}
+		    	rs = st.executeQuery(query1);
+		    	while(rs.next()) {
+		    	
+		    		System.out.println(printRed(padString("",2) + padString(rs.getString(1), 12) + padString(rs.getString(2), 12) +
+		    				padString(c.calculateLetterGrade(Double.parseDouble(rs.getString(4))),12)+ rs.getString(3)));
+		    	}
+			}catch(SQLException e) {
+			System.out.println(e.getMessage());
+			}
+	}
+	public void printWeekAssignments() {
+		try (Connection connection =DriverManager.getConnection(url, username, password)) {
+		    String query = "select * from weekassignments;";
+		    Statement st = connection.createStatement();
+		    ResultSet rs = st.executeQuery(query);
+		    System.out.println();
+		    System.out.println(padString("Assignment", 20) + padString("Weight",10) + padString("daysLeft",15) + "Course");
+		    System.out.println("___________________________________________________________");
 		    while (rs.next()) {
+		    	if (Integer.parseInt(rs.getString(3)) < 2) {
+		    		System.out.println(printRed(padString(rs.getString(1), 22) + padString(rs.getString(2), 10) + padString(rs.getString(3), 15) + rs.getString(4)));
+		    	}else
+		    	System.out.println(padString(rs.getString(1), 22) + padString(rs.getString(2), 10) + padString(rs.getString(3), 15) + rs.getString(4));
 		    	
-		    	System.out.println(rs.getString(1) + "          -       " + (rs.getString(2)) + "          -   "+(rs.getString(3)));
 		    }
-		}
-		catch(SQLException e) {
+		}catch(SQLException e) {
 			System.out.println(e.getMessage());
-		}
-	}
-	public void setCourseGrade(int id) {
-		try (Connection connection =DriverManager.getConnection(url, username, password)) {
-		    String query = "update courses set grade = sum(assignments.grade) where assignments.courseid = "+id;
-		    Statement st = connection.createStatement();
-		    st.executeUpdate(query);
-		    }
-		catch(SQLException e) {
-			System.out.println(e.getMessage());
-		}
+			}
 	}
 	
-	public void coursesGrades() {
-		
-		try (Connection connection =DriverManager.getConnection(url, username, password)) {
-		    String query = "select name, grade, hours from courses; ";
-		    Statement st = connection.createStatement();
-		    ResultSet rs =st.executeQuery(query);
-		    System.out.println("Course name  -  Grade   -  hours");
-	    	System.out.println("________________________________");
-		    while( rs.next()) {
-		    	
-		    	System.out.println("  "+rs.getString(1)+ "           "+rs.getString(2)+"        "+rs.getString(3));
-		    }
-		}
-		catch(SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
 }
-
-
 	
+
 	
 	
 
