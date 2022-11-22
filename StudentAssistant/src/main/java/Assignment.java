@@ -29,11 +29,16 @@ public class Assignment extends Queries {
 		System.out.print("Enter assignment's course ID: ");
 		courseId = input.next();
 		printAssignmnetInfo();
-		System.out.println("Looks good? press '1' to add the assignment or '2' to try again");
+		System.out.println("\nLooks good? \n(1) to add the assignment \n(2) to try again \n(0) to assignments menu");
 		int choice = input.nextInt();
 		if (choice == 1) {
 		insertIntoDatabase("assignments", name, deadline, courseId, grade);
 		}else if (choice ==2) {
+			addAssignment();
+		}else if (choice == 0) {
+			Test.printAssignmentMenu();
+		}else {
+			System.out.println("invalid input!");
 			addAssignment();
 		}
 	}
@@ -43,7 +48,13 @@ public class Assignment extends Queries {
 	 * from database.
 	 */
 	public void deleteAssignment() {
-		printList("assignments");
+		System.out.println("Not submitted");
+		System.out.println();
+		printGrades("assignments");
+		System.out.println();
+		System.out.println("Submitted");
+		System.out.println();
+		printGrades("completedassignments");
 		System.out.print("Enter Assignment ID to delete: ");
 		int id = input.nextInt();
 		System.out.println("Are you sure you want to delete assignment # " + id + "?? (enter '1' to delete, '2' to try again");
@@ -65,34 +76,42 @@ public class Assignment extends Queries {
 		}else {
 		printCourseAssignments(courseid);
 		System.out.print("Enter Assignment ID to submit, or (0) to go back to menu:  ");
-		int id = input.nextInt();
+		int id = input.nextInt();input.nextLine();
+		System.out.println();
 		if (id == 0) {
 			Test.printAssignmentMenu();
 		}else {
-		System.out.println("Submit assignment # " + id +"? (Enter '1' to submit, '2' to enter id again");
+		System.out.println("Submit assignment # " + id + "?");
+		System.out.print("(1) to submit, (2) to enter id again: ");
+		
 		int sure = input.nextInt();
 		if (sure == 1) {
 			submitAssignment(id);
+			System.out.println();
 			System.out.println("Assignment submitted!");
+			System.out.println();
 		}else if (sure == 2) {
 			submitAssignment();}
 		else {
 			System.out.println("invalid input, going back to assignment menu..");
 			Test.printAssignmentMenu();
 		}
-		System.out.println("(3) To enter assignment grade");
-		System.out.print("(2) to submit another assignment, (1) back to assignment menu, or (0) to main menu: ");
+		System.out.println("(1) To enter assignment grade");
+		System.out.println("(2) to submit another assignment" );
+		System.out.println("(3) back to assignment menu");
+		System.out.print("(0) to main menu: ");
 		int choice = input.nextInt();
 		if (choice == 2) {
 			submitAssignment();
-		}else if (choice == 1) {
+		}else if (choice == 3) {
 			Test.printAssignmentMenu();
 		}else if (choice == 0) {
 			Test.printMenu();
-		}else if (choice == 3) {
+		}else if (choice == 1) {
 			System.out.print("Enter received grade: ");
 			double grade = input.nextDouble();
 			updateReceivedGrade(id, grade);
+			Test.printAssignmentMenu();
 		}
 		else {
 			System.out.println("invalid input, going back to main menu..");
@@ -120,17 +139,29 @@ public class Assignment extends Queries {
 		}
 	}
 	public void updateAssignmentReceivedGrade() {
-		printList("completedassignments");
-		System.out.print("Enter assignment ID to update received grade or (0) to submit assignment: ");
-		int id = input.nextInt(); input.nextLine();
-		if (id == 0) {
-			submitAssignment();
+		printList("courses");
+		System.out.print("Enter course ID, or (0) to go back to menu: ");
+		int courseid = input.nextInt();
+		if (courseid == 0) {
+			Test.printAssignmentMenu();
 		}else {
+		printCourseAssignments(courseid);
+		}
+		System.out.println();
+		System.out.println( "(1) to submit an assignment"); 
+		System.out.println("(0) to go back to menu:  ");
+		System.out.print("Enter Assignment ID: "); 
+		int id = input.nextInt();
+		if (id == 0) {
+			Test.printAssignmentMenu();
+		}else if (id == 1) {
+			submitAssignment();
+		}
 		System.out.print("Enter received grade: ");
 		double grade = input.nextDouble(); input.nextLine();
 		updateReceivedGrade(id, grade);
 		printGrades("completedassignments");
-		}
+		
 	}
 	
 		

@@ -27,6 +27,18 @@ public class Queries {
 		str = (ANSI_GREEN + str + ANSI_RESET);
 		return str;
 	}
+	public final String printBlue(String str) {
+		final String ANSI_BLUE = "\u001b[36m";
+		final String ANSI_RESET = "\u001B[0m";
+		str = (ANSI_BLUE + str + ANSI_RESET);
+		return str;
+	}
+	public final String printPurple(String str) {
+		final String ANSI_PURPLE = "\u001b[35m";
+		final String ANSI_RESET = "\u001B[0m";
+		str = (ANSI_PURPLE + str + ANSI_RESET);
+		return str;
+	}
 		/**
 		 * String padding method, takes string and length as parameters.
 		 * @param str
@@ -62,8 +74,9 @@ public class Queries {
 		    System.out.println("______________________");
 		    while (rs.next()) {
 		    	
-		    	System.out.println(rs.getString(2) + "   -    " + (rs.getString(1)));
+		    	System.out.println(padString(rs.getString(2), 10)  + (rs.getString(1)));
 		    }
+		    System.out.println();
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -146,12 +159,17 @@ public class Queries {
 			try (Connection connection =DriverManager.getConnection(url, username, password)) {
 			    String query = "update "+table + " set deadline = '" +deadline + "' WHERE id = '" + id +"';";
 			    Statement st = connection.createStatement();
+			    System.out.println(query);
 			    st.executeUpdate(query);
 			    }
 			catch(SQLException e) {
-				System.out.println(e.getMessage());
+				if (e != null)
+					System.out.println(e.getMessage());
+				else
+					System.out.println("Deadline changed!");
 			}
-			System.out.println("Deadline changed!");
+			
+			
 	}
 	
 	/**
@@ -161,18 +179,21 @@ public class Queries {
 	public void printGrades(String table) {
 		
 		try (Connection connection =DriverManager.getConnection(url, username, password)) {
-		    String query = "select "+table+".name, "+table+".grade, "+table+".receivedgrade,"
-		    		+ "courses.name from "+table+" left join courses on "+table+".courseid = courses.id"
+		    String query = "select "+table+".id, "+ table+".name, courses.name, "+table+".grade, "+table+".receivedgrade " +
+		    		 "from "+table+" left join courses on "+table+".courseid = courses.id"
 		    				+ " order by grade desc;" ;
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println();
-		    System.out.println(" Weight(%) -  Received Grade  -   "+table  );
-		    System.out.println("_____________________________________________________________");
+		    System.out.println(padString("  ID",10) + padString("Assignment",20) + padString("Course",15) +padString("Weight(%)", 15) +  padString("Received Grade", 10)   );
+		    System.out.println("______________________________________________________________________________");
 		    while (rs.next()) {
 		    	
-		    	System.out.println(padString("",3) + padString(rs.getString(2), 15)  + padString("%"+rs.getString(3), 16 ) + rs.getString(1) +" (" + rs.getString(4) +")");
+		    	System.out.println(padString("  " +rs.getString(1), 10)  + padString(rs.getString(2), 20 ) + padString(rs.getString(3),15) + printPurple(padString("%"+ rs.getString(4), 15) )
+		    	+ printBlue("%"+rs.getString(5)));
+		    	System.out.println();
 		    }
+		    System.out.println();
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -181,18 +202,20 @@ public class Queries {
 	public void printGradesDeadline(String table) {
 		try (Connection connection =DriverManager.getConnection(url, username, password)) {
 		    String query = "select "+table+".name, "+table+".grade, "
-		    		+ "courses.name, datediff(deadline, curdate()) from "+table+" left join courses on "+table+".courseid = courses.id"
-		    				+ " order by grade desc;" ;
+		    		+ "courses.name, datediff(deadline, curdate()) as date from "+table+" left join courses on "+table+".courseid = courses.id"
+		    				+ " order by date asc;" ;
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println();
-		    System.out.println(padString("Weight(%)",18)  + padString("DaysLeft",20) +padString(table,5));
-		    System.out.println("_____________________________________________________________");
+		    System.out.println(padString("Assignment",18) +padString("Course",15) + padString("Weight(%)",15) +padString("DaysLeft", 20));
+		    System.out.println("_____________________________________________________________________");
 		    while (rs.next()) {
 		    	if (Integer.parseInt(rs.getString(4)) >= 3) {
-		    		System.out.println(padString("", 3)+ padString(rs.getString(2), 17) + padString(rs.getString(4),20)+ rs.getString(1)+" (" + rs.getString(3) +")");
+		    		System.out.println(padString(rs.getString(1), 19) + padString(rs.getString(3),20)+ padString("%"+rs.getString(2),15)+rs.getString(4) );
+		    		System.out.println();
 		    	}else {
-		    		System.out.println(padString("",3) + padString(rs.getString(2), 17) + padString(printRed(rs.getString(4)) , 29) + rs.getString(1)+" (" + rs.getString(3) +")");
+		    		System.out.println(padString(rs.getString(1), 19) + padString(rs.getString(3),20)+ padString("%"+rs.getString(2),15)+printRed(rs.getString(4) ));
+		    		System.out.println();
 		    	}
 		    }
 		}catch(SQLException e) {
@@ -273,12 +296,14 @@ public class Queries {
 		    while (rs.next()) {
 		    	
 		    	System.out.println(padString("", 3) + padString(rs.getString(2), 17) + padString(rs.getString(1), 20)+padString(rs.getString(3)+"%", 20)+
-		    			 padString(rs.getString(4) +"-" +rs.getString(5),20)+"   NO");
+		    			 padString(rs.getString(4) +"-" +rs.getString(5),20)+"   NO" );
+		    	System.out.println();
 		    } rs = st.executeQuery(query1);
 		    	while (rs.next()) {
 		    	
 		    	System.out.println(padString("", 3) + padString(rs.getString(2), 17) + padString(rs.getString(1), 20)+padString(rs.getString(3)+"%", 20)
 		    			+ padString(rs.getString(4)+ "-"+ rs.getString(5),20)+"   YES");
+		    	System.out.println();
 		    }
 		    
 		}catch(SQLException e) {
@@ -301,6 +326,7 @@ public class Queries {
 		    System.out.println("________________________________________");
 		    while (rs.next()) {
 		    	System.out.println(padString("",2) + padString(rs.getString(1),9) + padString(rs.getString(2),12) + rs.getString(3));
+		    	System.out.println();
 		    }
 		    System.out.println("________________________________________");
 		    rs = st.executeQuery(query1);
@@ -308,7 +334,6 @@ public class Queries {
 		    while (rs.next()) {
 		    	
 		    	System.out.println(rs.getString(1));
-		
 		    }
 		    rs = st.executeQuery(query2);
 		    System.out.print("Total course hours this semester: ");
@@ -375,12 +400,14 @@ public class Queries {
 		    	while (rs.next()) {
 		    		System.out.println(printGreen(padString("",2) + padString(rs.getString(1), 12) + padString(rs.getString(2), 12) +
 		    				padString(c.calculateLetterGrade(Double.parseDouble(rs.getString(4))),12)+ rs.getString(3)));
+		    		System.out.println();
 		    	}
 		    	rs = st.executeQuery(query1);
 		    	while(rs.next()) {
 		    	
 		    		System.out.println(printRed(padString("",2) + padString(rs.getString(1), 12) + padString(rs.getString(2), 12) +
 		    				padString(c.calculateLetterGrade(Double.parseDouble(rs.getString(4))),12)+ rs.getString(3)));
+		    		System.out.println();
 		    	}
 			}catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -392,14 +419,14 @@ public class Queries {
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println();
-		    System.out.println(padString("Assignment", 20) + padString("Weight",10) + padString("daysLeft",15) + "Course");
+		    System.out.println(padString("Assignment", 20) + padString("Weight",10) + padString("daysLeft",17) + "Course");
 		    System.out.println("___________________________________________________________");
 		    while (rs.next()) {
 		    	if (Integer.parseInt(rs.getString(3)) < 2) {
-		    		System.out.println(printRed(padString(rs.getString(1), 22) + padString(rs.getString(2), 10) + padString(rs.getString(3), 15) + rs.getString(4)));
+		    		System.out.println(printRed(padString(rs.getString(1), 22) + padString("%"+rs.getString(2), 11) + padString(rs.getString(3), 15) + rs.getString(4)));
 		    	}else
-		    	System.out.println(padString(rs.getString(1), 22) + padString(rs.getString(2), 10) + padString(rs.getString(3), 15) + rs.getString(4));
-		    	
+		    	System.out.println(padString(rs.getString(1), 22) + padString("%"+rs.getString(2), 11) + padString(rs.getString(3), 15) + rs.getString(4));
+		    	System.out.println();
 		    }
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());

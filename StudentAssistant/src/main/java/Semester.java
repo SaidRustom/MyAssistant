@@ -46,7 +46,7 @@ public class Semester extends Queries {
 			addSemester();
 		}
 		
-		System.out.println("add '" + name + "' to database? (insert 1 to add, 2 to enter semester info again, 0 to go back to menu) ");
+		System.out.println("add '" + name + "' to database? \n(1) to add \n(2) to enter semester info again \n(0) to go back to menu) ");
 		int sure = input.nextInt();
 		if (sure == 1) {
 			insertIntoDatabase("semesters", name, startDate, endDate);

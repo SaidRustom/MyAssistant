@@ -54,6 +54,7 @@ public class Test {
 		else if (choice == QUIT) {
 			System.out.println("Closing program..");
 			System.out.println("See you later! :)");
+			System.exit(0);
 		}else if ( choice == WEEK_ASSIGNMENTS) {
 			Assignment a = new Assignment();
 			a.printWeekAssignments();
