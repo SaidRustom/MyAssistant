@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 /**
  * this abstract class contains methods to perform 
  * queries on MySQL server.
@@ -261,6 +263,25 @@ public class Queries {
 	
 	}
 	/**
+	 * adds a new class to the classes table.
+	 * @param table
+	 * @param courseid
+	 * @param day
+	 * @param time
+	 */
+	public void insertClassToDatabase(String table, int courseid, String day, int time, int length) {
+		try (Connection connection =DriverManager.getConnection(url, username, password)) {
+		    String query = "insert into "+table+" (courseid, day, time, length)"
+		    		+ " values ('"+courseid +"' , '" + day + "', '" + time + "', '"+length+"');";
+		    Statement st = connection.createStatement();
+		    st.executeUpdate(query);
+		    }
+		catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("added into "+table +"!");
+	}
+	/**
 	 * adds a semester to the database
 	 * @param table
 	 * @param name
@@ -432,6 +453,44 @@ public class Queries {
 			System.out.println(e.getMessage());
 			}
 	}
+	public ArrayList<Task> getWeekClasses() {
+		ArrayList <Task> tasks = new ArrayList<>();
+		try(Connection connection = DriverManager.getConnection(url, username, password)){
+			String query = "select classes.time, courses.name, classes.day, classes.length from courses inner join classes on classes.courseid = courses.id;";
+			Statement st = connection.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while(rs.next()) {
+				int time = Integer.parseInt(rs.getString(1));
+				String name = (rs.getString(2));
+				String day = rs.getString(3);
+				int length = Integer.parseInt(rs.getString(4));
+				Task task = new Task(day,name,time,length);
+				tasks.add(task);
+			}
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}catch(Exception e) {
+			e.printStackTrace(); 
+		}return tasks;
+	}
+	/**
+	 * Calls "assignments_to_tasks() in the database.
+	 * basically creating tasks from assignments table 
+	 * where deadline is 14 or less days
+	 * @param days number of days left until deadline
+	 */
+	public void createTasksFromAssignments(int days){
+		try(Connection connection = DriverManager.getConnection(url, username, password)){
+			String query = "Call assignments_to_tasks();";
+			Statement st = connection.createStatement();
+			st.executeQuery(query);
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}catch(Exception e) {
+			e.printStackTrace(); 
+		}
+	}
+	
 	
 }
 	

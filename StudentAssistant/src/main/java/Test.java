@@ -18,8 +18,9 @@ public class Test {
 		final int COURSE = 2;
 		final int ASSIGNMENT = 3;
 		final int WEEK_ASSIGNMENTS = 4;
-		final int ENTER_SEMESTERID = 5;
-		final int QUIT = 6;
+		final int VIEW_SCHEDULE = 5;
+		final int ENTER_SEMESTERID = 6;
+		final int QUIT = 7;
 		
 		System.out.println();
 		System.out.println("________________________________________");
@@ -30,8 +31,9 @@ public class Test {
 		System.out.println("|2-|-----Go to Courses menu.            |");
 		System.out.println("|3-|-----Go to Assignments menu.        |");
 		System.out.println("|4-|-----View this week due assignments |");
-		System.out.println("|5-|-----Enter a static semester ID     |");
-		System.out.println("|6-|-----To close program.              |");
+		System.out.println("|5-|-----View classes Schedule          |");
+		System.out.println("|6-|-----Enter a static semester ID     |");
+		System.out.println("|7-|-----To close program.              |");
 		System.out.println("|__|____________________________________|");
 		System.out.print("            your choice: ");
 		int choice = userInput.nextInt();
@@ -50,7 +52,15 @@ public class Test {
 			System.out.println("Semester ID added!");
 			System.out.println();
 			printMenu();
-		}
+		}else if (choice == VIEW_SCHEDULE) {
+			Schedule s = new Schedule();
+			s.getClasses();
+			System.out.println("(0) to go back to menu");
+			if (userInput.nextInt() == 0) {
+				printMenu();
+			}else {
+				printMenu();
+		}	}
 		else if (choice == QUIT) {
 			System.out.println("Closing program..");
 			System.out.println("See you later! :)");
@@ -123,7 +133,8 @@ public class Test {
 		final int ADD_COURSE = 1;
 		final int COURSE_ASSIGNMENTS = 2;
 		final int VIEW_ALL_COURSES = 3;
-		final int DELETE_COURSE = 4;
+		final int ADD_CLASS = 4;
+		final int DELETE_COURSE = 5;
 		System.out.println();
 		System.out.println("     Courses Menu: ");
 		System.out.println("_______________________");
@@ -131,6 +142,8 @@ public class Test {
 		System.out.println("1- Add a course.");
 		System.out.println("2- View assignments of a course.");
 		System.out.println("3- View all courses.");
+		System.out.println("4- Add class time for a course.");
+		System.out.println("5- Delete a course");
 		System.out.println();
 		System.out.println("Press 0 at any time to go back to main menu.");
 		System.out.println();
@@ -156,7 +169,11 @@ public class Test {
 		}else if (choice == DELETE_COURSE) {
 			Course c = new Course();
 			c.deleteCourse();
-		}else if (choice == 0 ) {
+		}else if (choice == ADD_CLASS) {
+			Course c = new Course();
+			c.addClass();
+		}
+		else if (choice == 0 ) {
 			printMenu();
 		}
 		

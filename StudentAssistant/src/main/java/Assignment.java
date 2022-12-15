@@ -17,7 +17,7 @@ public class Assignment extends Queries {
 	 */
 	public void addAssignment() {
 		System.out.println("Enter assingment name: ");
-		name = input.next();
+		name = input.nextLine();
 		System.out.println("Enter assingment weight (out of 100): ");
 		grade = input.nextDouble();input.nextLine();
 		System.out.println("Enter deadline day: ");

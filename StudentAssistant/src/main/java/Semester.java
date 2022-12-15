@@ -29,15 +29,15 @@ public class Semester extends Queries {
 		id = input.nextInt();
 		System.out.print("Enter semester year: ");
 		int year = input.nextInt();
-		if ( id == 1) {
+		if ( id == FALL) {
 			name = "Fall " + year;
 			startDate = year + "-09-06";
 			endDate = year + "-12-10";
-		}else if (id == 2) {
+		}else if (id == WINTER) {
 			name = "Winter "+ year;
 			startDate = year + "-01-09";
 			endDate = year + "-04-15";
-		}else if (id == 3) {
+		}else if (id == SPRING) {
 			name = "Spring "+year;
 			startDate = year + "05-08";
 			endDate = year +"08-12";

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class Course extends Queries {
@@ -10,6 +10,8 @@ public class Course extends Queries {
 	private int grade;
 	private String letterGrade;
 	private int semesterId;
+	private String classDay;
+	private int classTime;
 	
 	
 	public Course() {
@@ -18,13 +20,14 @@ public class Course extends Queries {
 	public void addCourse() {
 		System.out.print("Enter course name: ");
 		name = input.nextLine();
-		System.out.print("Enter course hours: ");
+	
+		System.out.print("Enter course total hours: ");
 		hours = input.nextInt();
 		if ( Test.semesterId == 0) {
 			printList("semesters");
 			System.out.println("Enter semester ID: ");
 			Test.semesterId = input.nextInt();
-		}
+		}	
 		printCourseDetails();
 		System.out.print("Add course? (enter (1) to add course, (2) to enter course info again (0) to go back to courses menu): ");
 		int sure = input.nextInt();input.nextLine();
@@ -51,10 +54,11 @@ public class Course extends Queries {
 	}
 
 	public void printCourseDetails() {
-		System.out.println("Course details: ");
-		System.out.println("Course name: " + name);
-		System.out.println("Course hours: " + hours);
-		System.out.println("Semester ID = " + Test.semesterId);
+		System.out.println(printRed("\nCourse details: \n"));
+		System.out.println("Course name: " + printRed(name));
+		System.out.println("Class: " + printRed(classDay + ", at: " + classTime));
+		System.out.println("Course hours: " + printRed(String.valueOf(hours)));
+		System.out.println("Semester ID = " + printRed(String.valueOf(Test.semesterId)));
 	}
 	
 	public void deleteCourse() {
@@ -75,9 +79,48 @@ public class Course extends Queries {
 			deleteCourse();
 		}
 	}
-	public void setGrades() {
-		
+	
+	public void addClass() {
+		printList("courses");
+		System.out.print("Which course do you want to add a class to? ");
+		int id = input.nextInt();
+		System.out.println("\nDay of class?");
+		System.out.println("1-Monday\n2-Tuesday\n3-Wednesday\n4-Thursday\n5-Friday");
+		String day = input.next();
+		switch(day){
+		case "1": classDay = "Monday";
+			break;
+		case "2": classDay = "Tuesday";
+			break;
+		case "3": classDay = "Wednesday";
+			break;
+		case "4": classDay = "Thursday";
+			break;
+		case "5": classDay = "Friday";
+		break;
+		}
+		System.out.print("\ntime of class?  ");
+		int time = input.nextInt();
+		System.out.print("\nhow many hours? ");
+		int length = input.nextInt();
+		System.out.println("Courseid: "+id+"\nclass day: " +classDay+"\nclass time: "+time);
+		System.out.print("\n (1) to add class\n (0) to go back to menu: ");
+		int choice = input.nextInt();
+		if (choice == 1) {
+			//adding classes record * length to the database.
+			for(int i=0;i<length;i++) {
+			insertClassToDatabase("classes",id, classDay, time+i, length);
+			}try {
+				Thread.sleep(2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			Test.printCourseMenu();
+		}else {
+			Test.printCourseMenu();
+		}
 	}
+
 	
 	public int getCourseHours() {
 		return hours;
