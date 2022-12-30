@@ -16,6 +16,7 @@ public class StartUp {
 		queries.createTasksFromAssignments(); // a STOREDPROCEDURE in DB to run everytime the program starts.
 		Schedule s = new Schedule();
 		s.printTodaySchedule();
+		System.out.println(Print.printBlue("\n\n Assignments Due This Week:\n"));
 		queries.printWeekAssignments();
 		Test.menuChoiceAssignment();
 	}

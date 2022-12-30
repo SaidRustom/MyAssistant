@@ -140,7 +140,6 @@ public class Schedule extends Task {
 			break;
 			}
 		}
-		System.out.println("___________________________________________________________");
 		}
 		
 	/**
