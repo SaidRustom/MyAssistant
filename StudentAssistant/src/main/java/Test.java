@@ -425,7 +425,7 @@ public class Test {
 			return str;
 		}
 		
-		public static final int YEAR = 2022;//the year program uses to manipulate tasks.
+		public static final int YEAR = 2023;//the year program uses to manipulate tasks.
 		
 		static int semesterId = 0;// static semester id to be used when adding courses
 								//to the program to avoid entering it multiple times.

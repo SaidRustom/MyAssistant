@@ -136,16 +136,16 @@ public class Queries implements Print {
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println();
-		    System.out.println(Print.padString(" Assignment",18) +Print.padString("Course",20) + Print.padString("Weight(%)",15) 
+		    System.out.println(Print.padString(" Assignment",24) +Print.padString("Course",20) + Print.padString("Weight(%)",15) 
 		    	+Print.padString("DaysLeft", 20));
 		    System.out.println("_____________________________________________________________________");
 		    while (rs.next()) {
 		    	if ((rs.getInt(4)) >= 3) {
-		    		System.out.println(Print.padString(rs.getString(1), 19) + Print.padString(rs.getString(3),20)
+		    		System.out.println(Print.padString(rs.getString(1), 25) + Print.padString(rs.getString(3),20)
 		    			+Print.padString("%"+rs.getString(2),15)+rs.getString(4) );
 		    		System.out.println();
 		    	}else {
-		    		System.out.println(Print.padString(rs.getString(1), 19) + Print.padString(rs.getString(3),20)
+		    		System.out.println(Print.padString(rs.getString(1), 25) + Print.padString(rs.getString(3),20)
 		    			+Print.padString("%"+rs.getString(2),15)+Print.printRed(rs.getString(4)));
 		    		System.out.println();
 		    	}
@@ -263,19 +263,19 @@ public class Queries implements Print {
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println();
-		    System.out.println(Print.padString("", 3) + Print.padString("ID", 17) + Print.padString("Assignment", 20)+Print.padString("Grade", 20)
+		    System.out.println(Print.padString("", 3) + Print.padString("ID", 10) + Print.padString("Assignment", 27)+Print.padString("Grade", 20)
 	    			+ Print.padString ("Received", 20)+ Print.padString("Deadline",20)+  Print.padString("Submitted",10));
 		    System.out.println("__________________________________________________________________________________________________________");
 		    while (rs.next()) {
 		    	
-		    	System.out.println(Print.padString("", 3) + Print.padString(rs.getString(2), 17) + Print.padString(rs.getString(1), 20)
+		    	System.out.println(Print.padString("", 3) + Print.padString(rs.getString(2), 10) + Print.padString(rs.getString(1), 27)
 		    		+Print.padString(rs.getString(3)+"%", 20) + Print.padString("", 20) 
 		    		+Print.padString(rs.getString(4)+"-" +rs.getString(5),20)+"   NO" );
 		    	System.out.println();
 		    } rs = st.executeQuery(query1);
 		    	while (rs.next()) {
 		    	
-		    	System.out.println(Print.padString("", 3) +Print.padString(rs.getString(2), 17) +Print.padString(rs.getString(1), 20)
+		    	System.out.println(Print.padString("", 3) +Print.padString(rs.getString(2), 10) +Print.padString(rs.getString(1), 27)
 		    		+Print.padString(rs.getString(3)+"%", 20)+Print.padString(rs.getString(4)+"%", 20)+ Print.padString(rs.getString(5)+ "-"
 		    		+ rs.getString(6),20)+"   YES");
 		    	System.out.println();

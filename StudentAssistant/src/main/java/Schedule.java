@@ -109,14 +109,14 @@ public class Schedule extends Task {
 				if(j==6) { // To change the color (for visual purposes)
 				System.out.print("\u001b[36m");
 				}
-				System.out.print(Print.padString(schedule[i][j], 14)+Print.padString("|",3));
+				System.out.print(Print.padString(schedule[i][j], 21)+Print.padString("|",3));
 				}
 		System.out.println();
 		System.out.print("\u001b[36m");System.out.println(Print.padString("__|",3)
-			+Print.padString("\u001B[0m________________|",17) +Print.padString("________________|",17)
-			+Print.padString("________________|",17)+Print.padString("________________|",17)
-			+Print.padString("________________|",17)+Print.padString("________________|",17)
-			+Print.padString("________________|",17));
+			+Print.padString("\u001B[0m_______________________|",24) +Print.padString("_______________________|",24)
+			+Print.padString("_______________________|",24)+Print.padString("_______________________|",24)
+			+Print.padString("_______________________|",24)+Print.padString("_______________________|",24)
+			+Print.padString("_______________________|",24));
 		}
 	}
 	public void printTodaySchedule() {
