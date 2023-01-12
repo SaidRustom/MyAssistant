@@ -576,7 +576,7 @@ public class Queries implements Print {
 		try (Connection connection =DriverManager.getConnection(url, username, password)) {
 		    String query = "select tasks.id, tasks.name, tasks.length, tasks.day, tasks.time, tasks.date, courses.name from tasks"
 		    		+ " left join assignments on tasks.assignmentid = assignments.id "
-		    		+ "left join courses on assignments.courseid = courses.id where tasks.assignmentid != 'UNSET';";
+		    		+ "left join courses on assignments.courseid = courses.id where tasks.assignmentid != 'UNSET' order by assignments.deadline;";
 		    Statement st = connection.createStatement();
 		    ResultSet rs = st.executeQuery(query);
 		    System.out.println("TASKS:" + Print.printGreen("(Green colored tasks are not school related tasks)\n"));
